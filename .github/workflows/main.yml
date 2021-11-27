@@ -16,7 +16,7 @@ on:
 jobs:
   build:
     runs-on: windows-2022
-    continue-on-error: true
+    # continue-on-error: true
     timeout-minutes: 5
 
     # Steps represent a sequence of tasks that will be executed as part of the job
@@ -44,14 +44,22 @@ jobs:
       # - name: build
       #   shell: cmd
       #   run: |
-      #     msbuild LoggerTest\LoggerTest.sln -maxCpuCount -target:Build -verbosity:minimal -property:Platform=x64;Configuration=Release
-      #     msbuild LoggerTest\LoggerTest.sln -maxCpuCount -target:Build -verbosity:minimal -property:Platform=x86;Configuration=Release
+      #     msbuild LoggerTest\LoggerTest.sln -maxCpuCount -target:Build -property:Platform=x64;Configuration=Release
+      #     msbuild LoggerTest\LoggerTest.sln -maxCpuCount -target:Build -property:Platform=x86;Configuration=Release
 
       # - name: run_x86
       #   shell: cmd
-      #   run: msbuild -version -logger:LoggerTest\LoggerTest\bin\x86\Release\net6.0\LoggerTest.dll
+      #   run: msbuild LoggerTest\LoggerTest.sln -maxCpuCount -target:Build -property:Platform=x86;Configuration=Debug -logger:LoggerTest\LoggerTest\build\x86\Release\net6.0\LoggerTest.dll
 
       # - name: run_x64
       #   shell: cmd
-      #   run: msbuild -version -logger:LoggerTest\LoggerTest\bin\x64\Release\net6.0\LoggerTest.dll
+      #   run: msbuild LoggerTest\LoggerTest.sln -maxCpuCount -target:Build -property:Platform=x64;Configuration=Release -logger:LoggerTest\LoggerTest\build\x64\Release\net6.0\LoggerTest.dll
+
+      - name: build
+        shell: cmd
+        run: msbuild LoggerTest\LoggerTest.sln -maxCpuCount -target:Build -property:Platform=x64;Configuration=Release
+
+      - name: run_x64
+        shell: cmd
+        run: msbuild UseTest.vcxproj
 
